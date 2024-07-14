@@ -28,6 +28,7 @@ const SmallcaseIntegration = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [gatewayToken, setGatewayToken] = useState(null);
+  const apiUrl = "https://smallcase-import-holding.onrender.com";
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +40,7 @@ const SmallcaseIntegration = () => {
 
   const connectBroker = async () => {
     try {
-      const transactionResponse = await axios.post('http://localhost:8001/create_transaction');
+      const transactionResponse = await axios.post(`${apiUrl}/create_transaction`);
       const transactionData = transactionResponse.data;
       const { response: apiResponse, token: jwtToken, gateway: gatewayName } = transactionData;
       console.log('Transaction:', transactionData);
@@ -74,7 +75,7 @@ const SmallcaseIntegration = () => {
       return;
     }
     try {
-      const holdingsResponse = await axios.get('http://localhost:8000/fetch_holdings', {
+      const holdingsResponse = await axios.get(`${apiUrl}/fetch_holdings`, {
         params: {
           auth_token: gatewayToken,
           include_mf: includeMF,
